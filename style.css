@@ -1,307 +1,46 @@
-/* === CodeWave Full Style Sheet === */
-:root {
-  --primary-color: #0066ff;
-  --primary-dark: #004bb5;
-  --background: #f5f7fb;
-  --text-dark: #1a1a1a;
-  --text-light: #fff;
-  --card-bg: #ffffffee;
-  --shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+body{
+    background-color: rgb(0, 0, 0);
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+
+
+h1{
+   color: rgb(226, 198, 37);
+   font-size: 60px;
+   text-align: center;
 }
 
-body {
-  font-family: 'Segoe UI', sans-serif;
-  background-color: var(--background);
-  color: var(--text-dark);
-  line-height: 1.7;
-  scroll-behavior: smooth;
+p{
+    color: #ffffff;
+    font-size: 20px; 
+    text-align: left;
 }
 
-header {
-  background: linear-gradient(to right, var(--primary-color), var(--primary-dark));
-  color: var(--text-light);
-  padding: 3rem 1.5rem;
-  text-align: center;
-  box-shadow: var(--shadow);
+#section1-img {
+    width: 1600px;
+    height: 400px;
+    display: block;       /* instead of absolute */
 }
 
-.header-top {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  padding: 0 1rem;
+.image-container {
+    position: relative;   /* allow overlay */
+    display: inline-block;
 }
 
-#logo-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: none;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  padding: 10px;
-  z-index: 999;
+.text-overlay {
+    position: absolute;
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #ffffff;
+    font-size: 30px;
+    text-align: center;
+    background: rgba(0,0,0,0.5); /* optional for readability */
+    padding: 10px;
+    border-radius: 5px;
 }
 
-#img {
-  width: 100px;
-  height: auto;
-  max-height: 100px;
-  cursor: pointer;
-  object-fit: contain;
-  background: transparent;
-  border-radius: 0;
-  display: block;
-  transition: transform 0.2s ease;
-}
-
-#img:hover {
-  transform: scale(1.05);
-}
-
-header h1 {
-  font-size: 3rem;
-  margin-bottom: 0.5rem;
-  letter-spacing: 2px;
-}
-
-header p {
-  font-size: 1.2rem;
-  opacity: 0.9;
-}
-
-nav {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 1.5rem;
-}
-
-.cta-button {
-  display: inline-block;
-  padding: 0.75rem 1.6rem;
-  background-color: var(--primary-color);
-  color: var(--text-light);
-  text-decoration: none;
-  border-radius: 50px;
-  font-weight: 600;
-  transition: all 0.3s ease-in-out;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-}
-
-.cta-button:hover {
-  background: var(--primary-dark);
-  transform: translateY(-2px);
-}
-
-section {
-  max-width: 1100px;
-  margin: 3rem auto;
-  padding: 2rem;
-  background: var(--card-bg);
-  border-radius: 16px;
-  box-shadow: var(--shadow);
-}
-
-h2 {
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
-  border-left: 4px solid var(--primary-color);
-  padding-left: 0.75rem;
-}
-
-.section-box {
-  border: 1px solid #ccc;
-  padding: 20px;
-  margin-top: 20px;
-  border-radius: 10px;
-  background: #f9f9f9;
-}
-
-.section-box h3 {
-  font-size: 1.4rem;
-  margin-bottom: 10px;
-}
-
-.section-box p,
-.small-about-text {
-  font-size: 1.1rem;
-  line-height: 1.6;
-  color: #222;
-}
-
-.features ul li,
-.intro ul li {
-  font-size: 1.1rem;
-  padding: 0.5rem 0;
-  display: flex;
-  align-items: center;
-}
-
-.features ul li i {
-  margin-right: 12px;
-  color: var(--primary-color);
-}
-
-ul {
-  list-style: none;
-  padding: 0;
-}
-
-input[type="text"],
-input[type="email"],
-textarea {
-  width: 100%;
-  padding: 0.9rem 1rem;
-  margin-top: 0.25rem;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  margin-bottom: 1.25rem;
-  font-size: 1rem;
-  transition: 0.2s ease;
-}
-
-input:focus,
-textarea:focus {
-  outline: none;
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 2px rgba(0, 102, 255, 0.2);
-}
-
-footer {
-  text-align: center;
-  padding: 2rem;
-  background: #111;
-  color: #aaa;
-  font-size: 0.95rem;
-  margin-top: 4rem;
-  border-top: 4px solid var(--primary-color);
-}
-
-/* 🌟 Responsive and Stylish Pricing Section */
-#pricing ul {
-  display: flex;
-  gap: 2rem;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding: 0;
-}
-
-#pricing ul li {
-  flex: 1 1 280px;
-  background: #ffffff;
-  padding: 1.5rem;
-  border-radius: 16px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  text-align: center;
-  position: relative;
-}
-
-#pricing ul li:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 12px 30px rgba(0,0,0,0.12);
-}
-
-#pricing ul li strong {
-  font-size: 1.4rem;
-  display: block;
-  margin-bottom: 0.75rem;
-  color: var(--primary-dark);
-}
-
-#pricing ul li small {
-  font-size: 0.95rem;
-  display: block;
-  color: #666;
-  margin-top: 0.5rem;
-}
-
-#pricing ul li a.details-button {
-  margin-top: 1rem;
-  display: inline-block;
-  background-color: var(--primary-color);
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 30px;
-  text-decoration: none;
-  font-size: 0.95rem;
-  transition: background-color 0.3s ease;
-}
-
-#pricing ul li a.details-button:hover {
-  background-color: var(--primary-dark);
-}
-
-@media (max-width: 768px) {
-  header h1 {
-    font-size: 2.2rem;
-  }
-
-  section {
-    margin: 2rem 1rem;
-    padding: 1.5rem;
-  }
-
-  .cta-button {
-    padding: 0.6rem 1.3rem;
-    font-size: 0.95rem;
-  }
-
-  #portfolio ul,
-  #pricing ul {
-    flex-direction: column;
-  }
-
-  #portfolio ul li,
-  #pricing ul li {
-    margin-bottom: 1.5rem;
-    padding: 1.2rem;
-    font-size: 1rem;
-  }
-
-  #pricing h2 {
-    font-size: 1.6rem;
-  }
-
-  #pricing ul li small {
-    font-size: 0.9rem;
-  }
-}
-  #whatsapp-floating {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 10000;
-  text-align: center;
-}
-
-#whatsapp-floating img {
-  width: 55px;
-  height: 55px;
-  border-radius: 50%;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  cursor: pointer;
-  transition: transform 0.3s ease;
-}
-
-#whatsapp-floating img:hover {
-  transform: scale(1.1);
-}
-
-#whatsapp-floating span {
-  display: block;
-  color: #0066ff;
-  font-size: 0.8rem;
-  font-weight: bold;
-  margin-top: 5px;
+#coming-soon{
+    font-size: 250px;
+    text-align: center;
 }
