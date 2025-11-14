@@ -1,22 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <title>code wave</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Car Racing</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Rubik+80s+Fade&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
-    <h1>code wave</h1>
-
-    <div class="image-container">
-        <img src="img1.jpg" alt="" id="section1-img">
-        <p class="text-overlay">
-            need a web? code wave got your back! we create fast <br>
-            mobile-friendly, SEO webs with very low price this week. <br>
-            codewave had a long experience and now we are ready.
-        </p>
+  <button class="btn rubik-text" id="startBtn">dead</button>
+  <div id="racingScene" style="display: none;"></div>
+  <div id="instructions" style="display: none;">
+    <p>🏎️ WASD = Drive | Arrow Keys = Look Around</p>
+    <p>⚠️ Hit obstacles = Restart!</p>
+    <p>💰 Collect coins!</p>
+  </div>
+  <div id="gameStats" style="display: none;">
+    <div class="stat-item">💰 Coins: <span id="coinCount">0</span></div>
+    <div class="stat-item">⭐ Score: <span id="scoreCount">0</span></div>
+    <div class="stat-item">🏆 High Score: <span id="highScoreCount">0</span></div>
+  </div>
+  <div id="gameOverScreen" style="display: none;">
+    <div class="game-over-content">
+      <h2 class="rubik-text">💥 Try Again!</h2>
+      <p>You hit an obstacle!</p>
+      <div class="stats-display">
+        <p>💰 Coins Collected: <span id="finalCoins">0</span></p>
+        <p>⭐ Your Score: <span id="finalScore">0</span></p>
+        <p>🏆 High Score: <span id="finalHighScore">0</span></p>
+      </div>
+      <button class="btn rubik-text" id="restartBtn">Restart</button>
     </div>
+  </div>
+  <script src="script.js"></script>
 </body>
 </html>
-<p id="coming-soon">coming soon</p>
