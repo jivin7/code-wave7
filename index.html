@@ -1,52 +1,768 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>3D Car Racing</title>
-  <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Rubik+80s+Fade&display=swap" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8947582768784485"
+  <meta charset="UTF-8" />
+  <title>Race Death - F1 Duel</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8947582768784485"
      crossorigin="anonymous"></script>
 </head>
 <body>
-  <button class="btn rubik-text" id="startBtn">dead</button>
-  <!-- AdSense Ad -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-8947582768784485"
-     data-ad-slot="1234567890"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+  <div class="game-container">
+    <header class="title-bar">
+      <h1>RACE DEATH</h1>
+      <p class="subtitle">Realistic Formula Racing Duel</p>
+    </header>
 
-  
-  <div id="racingScene" style="display: none;"></div>
-  <div id="instructions" style="display: none;">
-    <p>🏎️ WASD = Drive | Arrow Keys = Look Around</p>
-    <p>⚠️ Hit obstacles = Restart!</p>
-    <p>💰 Collect coins!</p>
+    <main class="game-main">
+      <!-- Start Screen -->
+      <section id="start-screen" class="panel active">
+        <button id="start-death-btn" class="start-death-btn">
+          START DEATH
+        </button>
+        <p class="hint-text">Click to choose your car and begin the duel.</p>
+      </section>
+
+      <!-- Car Select Screen -->
+      <section id="car-select-screen" class="panel">
+        <h2>Choose Your Car</h2>
+        <div class="car-grid">
+          <button class="car-choice" data-car="red">
+            <div class="car-preview car-red"></div>
+            <span>Red Fury</span>
+          </button>
+          <button class="car-choice" data-car="blue">
+            <div class="car-preview car-blue"></div>
+            <span>Blue Thunder</span>
+          </button>
+          <button class="car-choice" data-car="black">
+            <div class="car-preview car-black"></div>
+            <span>Black Shadow</span>
+          </button>
+        </div>
+        <p class="hint-text">Pick your car. The other one will be your rival.</p>
+      </section>
+
+      <!-- Race Screen -->
+      <section id="race-screen" class="panel">
+        <div class="top-bar">
+          <div id="countdown" class="countdown">READY</div>
+          <div id="status-text" class="status-text"></div>
+        </div>
+
+        <div class="three-wrapper">
+          <div id="three-container" class="three-container"></div>
+          <div id="joystick" class="joystick" aria-label="Mobile joystick">
+            <div class="joystick-base" id="joystick-base">
+              <div class="joystick-knob" id="joystick-knob"></div>
+            </div>
+          </div>
+          <div class="hud">
+            <div class="hud-line" id="hud-speed">SPEED: 0 km/h</div>
+            <div class="hud-line">DRIVE: Joystick (mobile) or W / A / S / D or Arrow Keys</div>
+            <div class="hud-line">STAY ON THE TRACK OR YOU DIE</div>
+          </div>
+          <div class="coins-chart" aria-label="Coins bar chart">
+            <div class="coins-title">COINS</div>
+            <div class="bar-row">
+              <div class="bar-label">You</div>
+              <div class="bar-track" aria-hidden="true">
+                <div id="bar-player" class="bar-fill"></div>
+              </div>
+              <div id="coins-player" class="bar-value">0</div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-label">Rival</div>
+              <div class="bar-track" aria-hidden="true">
+                <div id="bar-rival" class="bar-fill"></div>
+              </div>
+              <div id="coins-rival" class="bar-value">0</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="race-controls">
+          <button id="race-again-btn" class="secondary-btn">Race Again</button>
+        </div>
+      </section>
+    </main>
   </div>
-  <div id="gameStats" style="display: none;">
-    <div class="stat-item">💰 Coins: <span id="coinCount">0</span></div>
-    <div class="stat-item">⭐ Score: <span id="scoreCount">0</span></div>
-    <div class="stat-item">🏆 High Score: <span id="highScoreCount">0</span></div>
-  </div>
-  <div id="gameOverScreen" style="display: none;">
-    <div class="game-over-content">
-      <h2 class="rubik-text">💥 Try Again!</h2>
-      <p>You hit an obstacle!</p>
-      <div class="stats-display">
-        <p>💰 Coins Collected: <span id="finalCoins">0</span></p>
-        <p>⭐ Your Score: <span id="finalScore">0</span></p>
-        <p>🏆 High Score: <span id="finalHighScore">0</span></p>
-      </div>
-      <button class="btn rubik-text" id="restartBtn">Restart</button>
-    </div>
-  </div>
-  <script src="script.js"></script>
+
+  <script>
+    const startScreen = document.getElementById('start-screen');
+    const carSelectScreen = document.getElementById('car-select-screen');
+    const raceScreen = document.getElementById('race-screen');
+
+    const startDeathBtn = document.getElementById('start-death-btn');
+    const carChoiceButtons = document.querySelectorAll('.car-choice');
+
+    const countdownEl = document.getElementById('countdown');
+    const statusText = document.getElementById('status-text');
+    const threeContainer = document.getElementById('three-container');
+    const hudSpeed = document.getElementById('hud-speed');
+    const raceAgainBtn = document.getElementById('race-again-btn');
+    const joystickEl = document.getElementById('joystick');
+    const joystickBase = document.getElementById('joystick-base');
+    const joystickKnob = document.getElementById('joystick-knob');
+    const barPlayer = document.getElementById('bar-player');
+    const barRival = document.getElementById('bar-rival');
+    const coinsPlayerValue = document.getElementById('coins-player');
+    const coinsRivalValue = document.getElementById('coins-rival');
+
+    let raceInProgress = false;
+    let controlsEnabled = false;
+    let keyAccel = false;
+    let keyBrake = false;
+    let keyLeft = false;
+    let keyRight = false;
+    let chosenCarType = 'red';
+    let rivalCarType = 'blue';
+
+    // Touch joystick state (mobile)
+    let joystickActive = false;
+    let joystickPointerId = null;
+    let steerAxis = 0; // -1..1 (left..right)
+    let throttleAxis = 0; // -1..1 (brake..throttle)
+
+    // 3D world objects
+    let scene, camera, renderer;
+    let playerCar, rivalCar, trackMesh;
+    let clock;
+    let playerVelocity = 0;
+    let rivalVelocity = 0;
+    let distanceTravelled = 0;
+    let finished = false;
+
+    // Coins & obstacles
+    let playerCoins = 0;
+    let rivalCoins = 0;
+    let coinMeshes = [];
+    let obstacleMeshes = [];
+    let maxCoinsForChart = 1;
+
+    // Camera drag (rotate around the car)
+    let orbitDragging = false;
+    let orbitPointerId = null;
+    let lastOrbitX = 0;
+    let lastOrbitY = 0;
+    let orbitYaw = 0; // radians
+    let orbitPitch = 0; // radians (clamped)
+
+    function resetJoystick() {
+      joystickActive = false;
+      steerAxis = 0;
+      throttleAxis = 0;
+      if (joystickKnob) joystickKnob.style.transform = 'translate(0px, 0px)';
+    }
+
+    function updateCoinsChart() {
+      const p = playerCoins;
+      const r = rivalCoins;
+      maxCoinsForChart = Math.max(1, p, r);
+
+      const pPct = Math.round((p / maxCoinsForChart) * 100);
+      const rPct = Math.round((r / maxCoinsForChart) * 100);
+
+      barPlayer.style.width = `${pPct}%`;
+      barRival.style.width = `${rPct}%`;
+      coinsPlayerValue.textContent = String(p);
+      coinsRivalValue.textContent = String(r);
+    }
+
+    function resetCoinsVisuals() {
+      playerCoins = 0;
+      rivalCoins = 0;
+      if (!coinMeshes || coinMeshes.length === 0) {
+        updateCoinsChart();
+        return;
+      }
+      coinMeshes.forEach((coin) => {
+        coin.userData.collected = false;
+        coin.visible = true;
+      });
+      updateCoinsChart();
+    }
+
+    function buildCoinsAndObstacles(trackLength, trackWidth) {
+      // Clear previous meshes (scene should be new per race, but this keeps it safe).
+      if (coinMeshes) coinMeshes.forEach(m => scene && scene.remove(m));
+      if (obstacleMeshes) obstacleMeshes.forEach(m => scene && scene.remove(m));
+      coinMeshes = [];
+      obstacleMeshes = [];
+      playerCoins = 0;
+      rivalCoins = 0;
+      updateCoinsChart();
+
+      // Our world uses z increasing "down the track".
+      const endZ = 260;
+      const startZ = playerCar.position.z + 55;
+      const xLimit = trackWidth / 2 - 2.0;
+
+      const coinCount = 30;
+      const obstacleCount = 16;
+
+      // Slightly randomized placement, but always between startZ..endZ.
+      const coinGeo = new THREE.CylinderGeometry(0.45, 0.45, 0.08, 20);
+      const coinMat = new THREE.MeshStandardMaterial({
+        color: 0xffcc00,
+        emissive: 0x552200,
+        roughness: 0.25,
+        metalness: 0.5
+      });
+
+      for (let i = 0; i < coinCount; i++) {
+        const coin = new THREE.Mesh(coinGeo, coinMat);
+        const t = i / (coinCount - 1);
+        const z = startZ + t * (endZ - startZ) + (Math.random() * 14 - 7);
+        const x = (Math.random() * 2 - 1) * xLimit;
+        coin.position.set(x, 0.12, z);
+        coin.rotation.x = Math.PI / 2;
+        coin.userData = { type: 'coin', collected: false, radius: 1.0 };
+        scene.add(coin);
+        coinMeshes.push(coin);
+      }
+
+      // Obstacles: cones + small barriers.
+      const coneGeo = new THREE.ConeGeometry(0.5, 1.0, 14);
+      const barrierGeo = new THREE.BoxGeometry(1.1, 0.55, 0.25);
+
+      const coneMat = new THREE.MeshStandardMaterial({
+        color: 0xff6600,
+        emissive: 0x220000,
+        roughness: 0.35,
+        metalness: 0.2
+      });
+      const barrierMat = new THREE.MeshStandardMaterial({
+        color: 0x666666,
+        roughness: 0.65,
+        metalness: 0.1
+      });
+
+      for (let i = 0; i < obstacleCount; i++) {
+        const isCone = i % 2 === 0;
+        const mesh = new THREE.Mesh(isCone ? coneGeo : barrierGeo, isCone ? coneMat : barrierMat);
+        const t = i / (obstacleCount - 1);
+        const z = startZ + t * (endZ - startZ) + (Math.random() * 20 - 10);
+        const x = (Math.random() * 2 - 1) * xLimit;
+        mesh.position.set(x, 0.55, z);
+        if (!isCone) mesh.rotation.y = Math.random() * 0.6;
+        mesh.userData = { type: 'obstacle', radius: 1.25 };
+        scene.add(mesh);
+        obstacleMeshes.push(mesh);
+      }
+    }
+
+    function setJoystickFromPointer(clientX, clientY) {
+      if (!joystickBase) return;
+      const rect = joystickBase.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+
+      const dx = clientX - cx;
+      const dy = clientY - cy;
+
+      const maxR = rect.width * 0.35;
+      const dist = Math.hypot(dx, dy);
+      const scale = dist > maxR ? maxR / dist : 1;
+
+      const x = dx * scale;
+      const y = dy * scale;
+
+      joystickKnob.style.transform = `translate(${x}px, ${y}px)`;
+
+      steerAxis = x / maxR; // -1..1
+      throttleAxis = (-y) / maxR; // up = positive (throttle), down = negative (brake)
+      // clamp just in case
+      if (steerAxis > 1) steerAxis = 1;
+      if (steerAxis < -1) steerAxis = -1;
+      if (throttleAxis > 1) throttleAxis = 1;
+      if (throttleAxis < -1) throttleAxis = -1;
+    }
+
+    // Joystick pointer controls
+    if (joystickBase) {
+      joystickBase.addEventListener('pointerdown', (e) => {
+        if (!controlsEnabled) return;
+        e.preventDefault();
+        e.stopPropagation();
+        joystickActive = true;
+        joystickPointerId = e.pointerId;
+        joystickBase.setPointerCapture(e.pointerId);
+        setJoystickFromPointer(e.clientX, e.clientY);
+      });
+
+      joystickBase.addEventListener('pointermove', (e) => {
+        if (!joystickActive) return;
+        if (joystickPointerId !== e.pointerId) return;
+        e.preventDefault();
+        e.stopPropagation();
+        setJoystickFromPointer(e.clientX, e.clientY);
+      });
+
+      const endJoystick = (e) => {
+        if (joystickPointerId !== e.pointerId) return;
+        e.preventDefault();
+        e.stopPropagation();
+        resetJoystick();
+      };
+
+      joystickBase.addEventListener('pointerup', endJoystick);
+      joystickBase.addEventListener('pointercancel', endJoystick);
+    }
+
+    // Drag to rotate camera
+    if (threeContainer) {
+      threeContainer.addEventListener('pointerdown', (e) => {
+        if (!controlsEnabled) return;
+        // Avoid conflicts with the joystick (it stops propagation anyway)
+        e.preventDefault();
+        orbitDragging = true;
+        orbitPointerId = e.pointerId;
+        lastOrbitX = e.clientX;
+        lastOrbitY = e.clientY;
+        threeContainer.setPointerCapture(e.pointerId);
+      });
+
+      threeContainer.addEventListener('pointermove', (e) => {
+        if (!orbitDragging) return;
+        if (orbitPointerId !== e.pointerId) return;
+        e.preventDefault();
+
+        const dx = e.clientX - lastOrbitX;
+        const dy = e.clientY - lastOrbitY;
+        lastOrbitX = e.clientX;
+        lastOrbitY = e.clientY;
+
+        orbitYaw += dx * 0.006;
+        orbitPitch += dy * 0.003;
+        if (orbitPitch > 0.6) orbitPitch = 0.6;
+        if (orbitPitch < -0.3) orbitPitch = -0.3;
+      });
+
+      const endOrbit = (e) => {
+        if (orbitPointerId !== e.pointerId) return;
+        e.preventDefault();
+        orbitDragging = false;
+        orbitPointerId = null;
+      };
+
+      threeContainer.addEventListener('pointerup', endOrbit);
+      threeContainer.addEventListener('pointercancel', endOrbit);
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (!controlsEnabled) return;
+      const code = e.code;
+      if (code === 'ArrowUp' || code === 'ArrowDown' || code === 'ArrowLeft' || code === 'ArrowRight') {
+        e.preventDefault();
+      }
+      if (code === 'KeyW' || code === 'ArrowUp') {
+        keyAccel = true;
+      } else if (code === 'KeyS' || code === 'ArrowDown') {
+        keyBrake = true;
+      } else if (code === 'KeyA' || code === 'ArrowLeft') {
+        keyLeft = true;
+      } else if (code === 'KeyD' || code === 'ArrowRight') {
+        keyRight = true;
+      }
+    });
+
+    window.addEventListener('keyup', (e) => {
+      if (!controlsEnabled) return;
+      const code = e.code;
+      if (code === 'KeyW' || code === 'ArrowUp') {
+        keyAccel = false;
+      } else if (code === 'KeyS' || code === 'ArrowDown') {
+        keyBrake = false;
+      } else if (code === 'KeyA' || code === 'ArrowLeft') {
+        keyLeft = false;
+      } else if (code === 'KeyD' || code === 'ArrowRight') {
+        keyRight = false;
+      }
+    });
+
+    function initThree() {
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x050508);
+
+      const aspect = threeContainer.clientWidth / threeContainer.clientHeight;
+      camera = new THREE.PerspectiveCamera(55, aspect, 0.1, 1000);
+
+      renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setSize(threeContainer.clientWidth, threeContainer.clientHeight);
+      renderer.shadowMap.enabled = true;
+      threeContainer.innerHTML = '';
+      threeContainer.appendChild(renderer.domElement);
+
+      const ambient = new THREE.AmbientLight(0xffffff, 0.4);
+      scene.add(ambient);
+
+      const dirLight = new THREE.DirectionalLight(0xffffff, 0.9);
+      dirLight.position.set(10, 20, 5);
+      dirLight.castShadow = true;
+      scene.add(dirLight);
+
+      const trackLength = 600;
+      const trackWidth = 14;
+      const trackGeo = new THREE.PlaneGeometry(trackWidth, trackLength, 1, 40);
+      const trackMat = new THREE.MeshStandardMaterial({ color: 0x222222 });
+      trackMesh = new THREE.Mesh(trackGeo, trackMat);
+      trackMesh.rotation.x = -Math.PI / 2;
+      trackMesh.receiveShadow = true;
+      scene.add(trackMesh);
+
+      const kerbMatRed = new THREE.MeshStandardMaterial({ color: 0xcc0000 });
+      const kerbMatWhite = new THREE.MeshStandardMaterial({ color: 0xffffff });
+      const kerbWidth = 1;
+      const kerbLength = trackLength / 30;
+
+      for (let i = 0; i < 30; i++) {
+        const mat = i % 2 === 0 ? kerbMatRed : kerbMatWhite;
+        const geo = new THREE.BoxGeometry(kerbWidth, 0.3, kerbLength * 0.9);
+        const leftKerb = new THREE.Mesh(geo, mat);
+        leftKerb.position.set(-trackWidth / 2 - kerbWidth / 2, 0.15, -trackLength / 2 + i * kerbLength);
+        leftKerb.castShadow = true;
+        leftKerb.receiveShadow = true;
+        scene.add(leftKerb);
+
+        const rightKerb = leftKerb.clone();
+        rightKerb.position.x = trackWidth / 2 + kerbWidth / 2;
+        scene.add(rightKerb);
+      }
+
+      const carBodyGeo = new THREE.BoxGeometry(1.4, 0.3, 3.6);
+      const carNoseGeo = new THREE.BoxGeometry(0.6, 0.22, 1.4);
+      const carRearGeo = new THREE.BoxGeometry(1.2, 0.2, 0.6);
+      const wheelGeo = new THREE.CylinderGeometry(0.45, 0.45, 0.4, 18);
+
+      const carColorMap = {
+        red: 0xff0000,
+        blue: 0x1e66ff,
+        black: 0x111111
+      };
+      const playerColor = carColorMap[chosenCarType] ?? 0xff0000;
+      const rivalColor = carColorMap[rivalCarType] ?? 0x1e66ff;
+
+      const playerMat = new THREE.MeshStandardMaterial({ color: playerColor, metalness: 0.55, roughness: 0.25 });
+      const rivalMat = new THREE.MeshStandardMaterial({ color: rivalColor, metalness: 0.55, roughness: 0.25 });
+      const wheelMat = new THREE.MeshStandardMaterial({ color: 0x111111 });
+
+      playerCar = new THREE.Group();
+      const body = new THREE.Mesh(carBodyGeo, playerMat);
+      body.castShadow = true;
+      body.receiveShadow = true;
+      playerCar.add(body);
+
+      const nose = new THREE.Mesh(carNoseGeo, playerMat);
+      nose.position.z = 2.2;
+      nose.castShadow = true;
+      playerCar.add(nose);
+
+      const rear = new THREE.Mesh(carRearGeo, playerMat);
+      rear.position.z = -1.7;
+      rear.castShadow = true;
+      playerCar.add(rear);
+
+      const wheelPositions = [
+        [-0.9, -0.3, 1.4],
+        [0.9, -0.3, 1.4],
+        [-0.9, -0.3, -1.4],
+        [0.9, -0.3, -1.4],
+      ];
+      wheelPositions.forEach(([x, y, z]) => {
+        const wheel = new THREE.Mesh(wheelGeo, wheelMat);
+        wheel.rotation.z = Math.PI / 2;
+        wheel.position.set(x, y, z);
+        wheel.castShadow = true;
+        wheel.receiveShadow = true;
+        playerCar.add(wheel);
+      });
+
+      playerCar.position.set(0, 0.3, -trackLength / 2 + 20);
+      scene.add(playerCar);
+
+      rivalCar = playerCar.clone();
+      rivalCar.traverse(obj => {
+        if (obj.material && obj.material.color && obj.material !== wheelMat) {
+          obj.material = obj.material.clone();
+          obj.material.color.set(rivalMat.color);
+        }
+      });
+      rivalCar.position.set(0, 0.3, playerCar.position.z + 20);
+      scene.add(rivalCar);
+
+      camera.position.set(0, 4.5, playerCar.position.z - 8);
+      camera.lookAt(playerCar.position.x, playerCar.position.y + 1, playerCar.position.z + 10);
+
+      const skyGeo = new THREE.SphereGeometry(400, 16, 16);
+      const skyMat = new THREE.MeshBasicMaterial({ color: 0x050510, side: THREE.BackSide });
+      const sky = new THREE.Mesh(skyGeo, skyMat);
+      scene.add(sky);
+
+      clock = new THREE.Clock();
+
+      window.addEventListener('resize', onWindowResize);
+
+      buildCoinsAndObstacles(trackLengthForWorld(), trackWidthForWorld());
+    }
+
+    function trackLengthForWorld() {
+      // Keep consistent with the track we build above.
+      return 600;
+    }
+
+    function trackWidthForWorld() {
+      return 14;
+    }
+
+    function onWindowResize() {
+      if (!renderer || !camera) return;
+      const width = threeContainer.clientWidth || threeContainer.offsetWidth || 800;
+      const height = threeContainer.clientHeight || threeContainer.offsetHeight || 450;
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+      renderer.setSize(width, height);
+    }
+
+    startDeathBtn.addEventListener('click', () => {
+      startScreen.classList.remove('active');
+      carSelectScreen.classList.add('active');
+    });
+
+    carChoiceButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const chosenCar = btn.getAttribute('data-car');
+        setupCars(chosenCar);
+        carSelectScreen.classList.remove('active');
+        raceScreen.classList.add('active');
+        startRaceCountdown();
+      });
+    });
+
+    function setupCars(chosenCar) {
+      chosenCarType = chosenCar;
+      rivalCarType = chosenCar === 'red' ? 'blue' : chosenCar === 'blue' ? 'black' : 'red';
+    }
+
+    function startRaceCountdown() {
+      statusText.textContent = '';
+      playerVelocity = 0;
+      rivalVelocity = 0;
+      distanceTravelled = 0;
+      finished = false;
+      controlsEnabled = false;
+      if (!scene) initThree();
+      hudSpeed.textContent = 'SPEED: 0 km/h';
+      orbitYaw = 0;
+      orbitPitch = 0;
+      resetJoystick();
+
+      resetCoinsVisuals();
+
+      const steps = ['3', '2', '1', 'RACE!'];
+      let i = 0;
+
+      const tick = () => {
+        countdownEl.textContent = steps[i];
+        i++;
+        if (i < steps.length) {
+          setTimeout(tick, 900);
+        } else {
+          startRace();
+        }
+      };
+
+      setTimeout(tick, 500);
+    }
+
+    function startRace() {
+      raceInProgress = true;
+      controlsEnabled = true;
+      statusText.textContent = 'Throttle/brake with Joystick (mobile) or W/Up and S/Down.';
+      clock.getDelta();
+      animate3D();
+    }
+
+    function finishRace() {
+      raceInProgress = false;
+      controlsEnabled = false;
+      if (!finished) {
+        statusText.textContent = 'RACE OVER.';
+      }
+    }
+
+    function animate3D() {
+      if (!raceInProgress || !renderer || !scene || !camera) return;
+
+      const dt = Math.min(clock.getDelta(), 0.05);
+
+      // Select input source: touch joystick on mobile, otherwise keyboard.
+      let accelAxis = 0; // 0..1
+      let brakeAxis = 0; // 0..1
+      let steer = 0; // -1..1
+
+      if (joystickActive) {
+        accelAxis = Math.max(0, throttleAxis);
+        brakeAxis = Math.max(0, -throttleAxis);
+        steer = steerAxis;
+      } else {
+        accelAxis = (keyAccel && !keyBrake) ? 1 : 0;
+        brakeAxis = (keyBrake && !keyAccel) ? 1 : 0;
+        steer = (keyRight ? 1 : 0) - (keyLeft ? 1 : 0);
+      }
+
+      if (accelAxis > 0 && brakeAxis === 0) {
+        playerVelocity += (26 * accelAxis) * dt;
+        if (playerVelocity > 120) playerVelocity = 120;
+      } else if (brakeAxis > 0 && accelAxis === 0) {
+        playerVelocity -= (46 * brakeAxis) * dt;
+        if (playerVelocity < 0) playerVelocity = 0;
+      } else {
+        playerVelocity -= 12 * dt;
+        if (playerVelocity < 0) playerVelocity = 0;
+      }
+
+      // Rival is intentionally a little slower so the player can win.
+      rivalVelocity += (32 * dt) + (Math.random() - 0.5) * 8 * dt;
+      if (rivalVelocity < 45) rivalVelocity = 45;
+      if (rivalVelocity > 70) rivalVelocity = 70;
+
+      const speedFactor = playerVelocity / 36;
+
+      // Steering: touch uses continuous axis, keyboard uses +/-1.
+      playerCar.position.x += steer * 5 * dt;
+      const maxOffset = 4.5;
+      if (playerCar.position.x > maxOffset) playerCar.position.x = maxOffset;
+      if (playerCar.position.x < -maxOffset) playerCar.position.x = -maxOffset;
+
+      const playerDz = speedFactor * dt * 20;
+      const rivalDz = (rivalVelocity / 36) * dt * 18;
+
+      playerCar.position.z += playerDz;
+      rivalCar.position.z += rivalDz;
+      distanceTravelled += playerDz;
+
+      const baseOffset = new THREE.Vector3(0, 3.8, -9);
+      baseOffset.applyAxisAngle(new THREE.Vector3(0, 1, 0), orbitYaw);
+      baseOffset.applyAxisAngle(new THREE.Vector3(1, 0, 0), orbitPitch);
+
+      camera.position.set(
+        playerCar.position.x + baseOffset.x,
+        playerCar.position.y + baseOffset.y,
+        playerCar.position.z + baseOffset.z
+      );
+      camera.lookAt(
+        playerCar.position.x,
+        playerCar.position.y + 0.9,
+        playerCar.position.z + 14
+      );
+
+      const maxTrackZ = 260;
+
+      // Spin coins a bit for life.
+      if (coinMeshes && coinMeshes.length) {
+        coinMeshes.forEach((coin) => {
+          if (!coin.userData.collected) coin.rotation.y += dt * 2.2;
+        });
+      }
+
+      // Coin collisions (player + rival).
+      if (coinMeshes && coinMeshes.length) {
+        for (let i = 0; i < coinMeshes.length; i++) {
+          const coin = coinMeshes[i];
+          if (coin.userData.collected) continue;
+
+          const r = coin.userData.radius || 1.0;
+
+          const pDx = playerCar.position.x - coin.position.x;
+          const pDz = playerCar.position.z - coin.position.z;
+          const pDist = Math.hypot(pDx, pDz);
+          if (pDist < r + 0.55) {
+            coin.userData.collected = true;
+            coin.visible = false;
+            playerCoins += 1;
+            updateCoinsChart();
+            continue;
+          }
+
+          const eDx = rivalCar.position.x - coin.position.x;
+          const eDz = rivalCar.position.z - coin.position.z;
+          const eDist = Math.hypot(eDx, eDz);
+          if (eDist < r + 0.55) {
+            coin.userData.collected = true;
+            coin.visible = false;
+            rivalCoins += 1;
+            updateCoinsChart();
+          }
+        }
+      }
+
+      // Obstacle collisions (if anyone hits, it's "death" and race ends).
+      if (obstacleMeshes && obstacleMeshes.length) {
+        for (let i = 0; i < obstacleMeshes.length; i++) {
+          const ob = obstacleMeshes[i];
+          const r = ob.userData.radius || 1.2;
+
+          const pDx = playerCar.position.x - ob.position.x;
+          const pDz = playerCar.position.z - ob.position.z;
+          if (Math.hypot(pDx, pDz) < r) {
+            raceInProgress = false;
+            controlsEnabled = false;
+            finished = true;
+            statusText.textContent = 'YOU DIED: You hit an obstacle.';
+            return;
+          }
+        }
+      }
+
+      if (playerCar.position.z > maxTrackZ || rivalCar.position.z > maxTrackZ) {
+        raceInProgress = false;
+        controlsEnabled = false;
+        finished = true;
+        if (playerCar.position.z > rivalCar.position.z + 2) {
+          statusText.textContent = 'You WIN. Your red death machine survives the lap.';
+        } else if (rivalCar.position.z > playerCar.position.z + 2) {
+          statusText.textContent = 'You LOSE. The rival crosses the line first.';
+        } else {
+          statusText.textContent = 'PHOTO FINISH. Both cars cross the death line together.';
+        }
+      }
+
+      const kmh = Math.round(playerVelocity);
+      hudSpeed.textContent = `SPEED: ${kmh} km/h`;
+
+      renderer.render(scene, camera);
+      requestAnimationFrame(animate3D);
+    }
+
+    raceAgainBtn.addEventListener('click', () => {
+      raceScreen.classList.remove('active');
+      carSelectScreen.classList.add('active');
+      countdownEl.textContent = 'READY';
+      statusText.textContent = '';
+      if (scene) {
+        // simple reset: rebuild scene on next race
+        scene = null;
+        renderer = null;
+        threeContainer.innerHTML = '';
+      }
+      raceInProgress = false;
+      controlsEnabled = false;
+      resetJoystick();
+      orbitYaw = 0;
+      orbitPitch = 0;
+      playerCoins = 0;
+      rivalCoins = 0;
+    });
+
+    // initialize 3D scene as soon as race screen is first entered
+    const observer = new MutationObserver(() => {
+      if (raceScreen.classList.contains('active') && !scene) {
+        initThree();
+      }
+    });
+    observer.observe(document.body, { attributes: true, subtree: true, attributeFilter: ['class'] });
+  </script>
 </body>
 </html>
