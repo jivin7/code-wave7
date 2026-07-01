@@ -1,4 +1,4 @@
-/* ── Football Kicks — Black, Grey & White ── */
+/* ── Egyptian Football Facts — Egyptian Theme (red, white, gold) ── */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -6,36 +6,76 @@
 }
 
 :root {
-  --black: #0a0a0a;
+  /* Egyptian palette */
+  --egypt-red: #ce1126;
+  --egypt-red-dark: #a30d1e;
+  --egypt-red-deep: #7a0b16;
+  --egypt-red-light: #e8354a;
+  --egypt-gold: #f5c518;
+  --egypt-gold-dark: #d4a017;
+  --egypt-gold-light: #fde68a;
+  --egypt-gold-pale: #fef3c7;
+  --egypt-gold-bg: #fffbeb;
   --white: #ffffff;
-  --grey-950: #111111;
-  --grey-900: #1a1a1a;
-  --grey-800: #262626;
-  --grey-700: #333333;
-  --grey-600: #525252;
-  --grey-500: #737373;
-  --grey-400: #a3a3a3;
-  --grey-300: #d4d4d4;
-  --grey-200: #e5e5e5;
-  --grey-100: #f5f5f5;
-  --blue: var(--black);
-  --blue-dark: var(--black);
-  --pink: var(--grey-600);
-  --pink-light: var(--grey-500);
-  --green: var(--grey-500);
-  --orange: var(--grey-600);
-  --purple: var(--grey-700);
-  --teal: var(--grey-600);
-  --bg: var(--grey-800);
+  --cream: #fffdf8;
+
+  /* Map legacy tokens → Egyptian colors */
+  --navy: var(--egypt-red-deep);
+  --navy-mid: var(--egypt-red);
+  --emerald: var(--egypt-red);
+  --emerald-dark: var(--egypt-red-dark);
+  --emerald-deep: var(--egypt-red-deep);
+  --emerald-light: var(--egypt-red-light);
+  --mint: var(--egypt-gold-light);
+  --mint-pale: var(--egypt-gold-pale);
+  --mint-bg: var(--egypt-gold-bg);
+  --coral: var(--egypt-red);
+  --coral-soft: var(--egypt-red-light);
+  --gold: var(--egypt-gold);
+  --gold-dark: var(--egypt-gold-dark);
+  --sky: var(--egypt-gold-dark);
+  --violet: var(--egypt-red-dark);
+  --red-card: var(--egypt-red);
+  --slate: #1a1a1a;
+  --slate-muted: #5c5c5c;
+  --slate-light: #8a8a8a;
+  --pitch-dark: var(--egypt-red-deep);
+  --pitch: var(--egypt-red);
+  --pitch-mid: var(--egypt-gold);
+  --pitch-light: var(--egypt-gold-light);
+  --pitch-pale: var(--egypt-gold-pale);
+  --pitch-bg: var(--egypt-gold-bg);
+  --pitch-soft: #fff9f0;
+  --black: var(--slate);
+  --grey-950: #1a1a1a;
+  --grey-900: #2d2d2d;
+  --grey-800: #404040;
+  --grey-700: #525252;
+  --grey-600: var(--slate-muted);
+  --grey-500: var(--slate-light);
+  --grey-400: #c4c4c4;
+  --grey-300: #e8e8e8;
+  --grey-200: #f5f5f5;
+  --grey-100: #fafafa;
+  --blue: var(--egypt-red);
+  --blue-dark: var(--egypt-red-deep);
+  --pink: var(--egypt-red);
+  --pink-light: var(--egypt-red-light);
+  --green: var(--egypt-red);
+  --orange: var(--egypt-gold-dark);
+  --purple: var(--egypt-red-dark);
+  --teal: var(--egypt-gold-dark);
+  --bg: #fff9f0;
   --surface: var(--white);
-  --surface-soft: var(--grey-100);
-  --text: var(--black);
+  --surface-soft: var(--pitch-soft);
+  --text: var(--slate);
   --text-on-dark: var(--white);
-  --text-muted: var(--grey-500);
-  --text-muted-on-dark: var(--grey-400);
-  --border: var(--grey-200);
-  --border-strong: var(--grey-300);
-  --shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
+  --text-muted: var(--slate-muted);
+  --text-muted-on-dark: rgba(255, 255, 255, 0.92);
+  --border: #f0e6d6;
+  --border-strong: #e8d5a8;
+  --shadow: 0 4px 24px rgba(122, 11, 22, 0.08);
+  --shadow-md: 0 8px 32px rgba(122, 11, 22, 0.12);
   --radius: 16px;
   --radius-sm: 12px;
   --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -52,9 +92,12 @@ html {
 
 body {
   font-family: var(--font);
-  background: var(--bg);
+  background:
+    radial-gradient(ellipse 120% 80% at 50% -20%, rgba(245, 197, 24, 0.2), transparent 50%),
+    radial-gradient(ellipse 70% 50% at 100% 0%, rgba(206, 17, 38, 0.1), transparent 45%),
+    linear-gradient(180deg, #fff9f0 0%, #ffffff 100%);
   min-height: 100vh;
-  color: var(--text-on-dark);
+  color: var(--text);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
@@ -91,7 +134,9 @@ nav.mobile-only { display: flex; }
   justify-content: space-between;
   padding: 14px 16px;
   padding-top: max(14px, env(safe-area-inset-top));
-  background: var(--surface);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
@@ -103,28 +148,27 @@ nav.mobile-only { display: flex; }
 .logo {
   display: flex;
   align-items: center;
-  gap: 10px;
+  flex-shrink: 0;
 }
 
-.logo-text {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--black);
-  letter-spacing: 0.02em;
+.logo-img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  display: block;
+  border-radius: 50%;
 }
-
-.logo-text strong { color: var(--grey-600); }
 
 .icon-btn {
   position: relative;
   padding: 10px;
   border-radius: var(--radius-sm);
-  background: var(--grey-100);
-  color: var(--black);
-  transition: background 0.2s;
+  background: var(--grey-200);
+  color: var(--egypt-red);
+  transition: background 0.2s, color 0.2s;
 }
 
-.icon-btn:hover { background: var(--grey-200); }
+.icon-btn:hover { background: var(--egypt-gold-pale); color: var(--egypt-red-dark); }
 
 .notification-btn .badge {
   position: absolute;
@@ -134,7 +178,7 @@ nav.mobile-only { display: flex; }
   height: 18px;
   padding: 0 5px;
   border-radius: 999px;
-  background: var(--black);
+  background: var(--red-card);
   color: var(--white);
   font-size: 10px;
   font-weight: 700;
@@ -150,8 +194,9 @@ nav.mobile-only { display: flex; }
   margin: 12px 16px 0;
   border-radius: var(--radius);
   background: var(--surface);
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-md);
   color: var(--text);
+  border: 1px solid rgba(255, 255, 255, 0.9);
 }
 
 .hero-bg { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
@@ -163,21 +208,21 @@ nav.mobile-only { display: flex; }
 }
 
 .hero-splash-blue {
-  width: 180px;
-  height: 180px;
-  background: var(--grey-300);
-  top: -50px;
-  left: -30px;
-  opacity: 0.5;
+  width: 200px;
+  height: 200px;
+  background: #f5c518;
+  top: -60px;
+  left: -40px;
+  opacity: 0.45;
 }
 
 .hero-splash-pink {
-  width: 140px;
-  height: 140px;
-  background: var(--grey-200);
-  top: -10px;
-  right: -20px;
-  opacity: 0.7;
+  width: 160px;
+  height: 160px;
+  background: #ce1126;
+  top: -20px;
+  right: -30px;
+  opacity: 0.35;
 }
 
 .hero-inner {
@@ -195,7 +240,7 @@ nav.mobile-only { display: flex; }
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--pink);
+  color: var(--egypt-gold-dark);
   margin-bottom: 10px;
 }
 
@@ -210,8 +255,8 @@ nav.mobile-only { display: flex; }
   gap: 2px;
 }
 
-.text-blue { color: var(--black); }
-.text-pink { color: var(--grey-600); }
+.text-blue { color: var(--egypt-red); }
+.text-pink { color: var(--egypt-gold-dark); }
 
 .hero-desc {
   font-size: 14px;
@@ -234,7 +279,7 @@ nav.mobile-only { display: flex; }
   object-position: top center;
   border-radius: 16px 16px 0 0;
   align-self: end;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 12px 32px rgba(206, 17, 38, 0.2);
 }
 
 /* ── Buttons ── */
@@ -255,25 +300,26 @@ nav.mobile-only { display: flex; }
 .btn:active { transform: scale(0.98); }
 
 .btn-primary {
-  background: var(--black);
+  background: linear-gradient(135deg, var(--egypt-red) 0%, var(--egypt-red-dark) 100%);
   color: var(--white);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 18px rgba(206, 17, 38, 0.35);
 }
 
 .btn-primary:hover {
-  background: var(--grey-900);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(135deg, var(--egypt-red-dark) 0%, var(--egypt-red-deep) 100%);
+  box-shadow: 0 6px 22px rgba(122, 11, 22, 0.4);
 }
 
 .btn-secondary {
   background: var(--white);
-  color: var(--black);
-  border: 2px solid var(--grey-300);
+  color: var(--egypt-red);
+  border: 2px solid var(--egypt-gold);
 }
 
 .btn-secondary:hover {
-  border-color: var(--black);
-  background: var(--grey-100);
+  border-color: var(--egypt-red);
+  background: var(--egypt-gold-pale);
+  color: var(--egypt-red-dark);
 }
 
 /* ── Stats ── */
@@ -287,6 +333,7 @@ nav.mobile-only { display: flex; }
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   color: var(--text);
+  border: 1px solid rgba(255, 255, 255, 0.9);
 }
 
 .stat {
@@ -305,12 +352,13 @@ nav.mobile-only { display: flex; }
   align-items: center;
   justify-content: center;
   margin-bottom: 2px;
+  border: 1px solid var(--border);
 }
 
-.stat-icon-blue { background: var(--grey-100); color: var(--black); }
-.stat-icon-green { background: var(--grey-200); color: var(--grey-700); }
-.stat-icon-orange { background: var(--grey-100); color: var(--grey-600); }
-.stat-icon-pink { background: var(--grey-200); color: var(--black); }
+.stat-icon-blue { background: #fde8eb; color: var(--egypt-red); }
+.stat-icon-green { background: var(--egypt-gold-pale); color: var(--egypt-gold-dark); }
+.stat-icon-orange { background: #fff4d6; color: #b8860b; }
+.stat-icon-pink { background: #fce8ea; color: var(--egypt-red-dark); }
 
 .stat-number {
   font-size: 20px;
@@ -342,17 +390,17 @@ nav.mobile-only { display: flex; }
   font-size: 18px;
   font-weight: 800;
   letter-spacing: -0.02em;
-  color: var(--text-on-dark);
+  color: var(--egypt-red);
 }
 
 .api-status {
   font-size: 11px;
   font-weight: 600;
-  color: var(--text-muted-on-dark);
+  color: var(--text-muted);
 }
 
-.api-status-success { color: var(--grey-300); }
-.api-status-error { color: var(--grey-400); }
+.api-status-success { color: var(--egypt-gold-dark); }
+.api-status-error { color: var(--egypt-red); }
 
 /* ── Club Search ── */
 .club-search { margin-bottom: 20px; }
@@ -363,7 +411,7 @@ nav.mobile-only { display: flex; }
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: var(--text-muted-on-dark);
+  color: var(--text-muted);
   margin-bottom: 10px;
 }
 
@@ -397,13 +445,13 @@ nav.mobile-only { display: flex; }
 
 .search-input:focus {
   outline: none;
-  border-color: var(--black);
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.15);
+  border-color: var(--egypt-red);
+  box-shadow: 0 0 0 3px rgba(206, 17, 38, 0.12);
 }
 
 .search-hint {
   font-size: 13px;
-  color: var(--text-muted-on-dark);
+  color: var(--text-muted);
   padding: 10px 4px 0;
 }
 
@@ -488,13 +536,13 @@ nav.mobile-only { display: flex; }
 }
 
 .tag-national {
-  background: var(--grey-200);
-  color: var(--black);
+  background: var(--egypt-gold-pale);
+  color: var(--egypt-red-deep);
 }
 
 .tag-club {
-  background: var(--grey-100);
-  color: var(--grey-700);
+  background: #fde8eb;
+  color: var(--egypt-red);
 }
 
 /* ── API Error ── */
@@ -540,7 +588,7 @@ nav.mobile-only { display: flex; }
   color: var(--text);
 }
 
-.standings-card-wc { border: 2px solid var(--grey-200); }
+.standings-card-wc { border: 2px solid var(--egypt-gold); }
 
 .standings-header {
   display: flex;
@@ -566,13 +614,14 @@ nav.mobile-only { display: flex; }
   display: flex;
   align-items: center;
   gap: 16px;
-  background: linear-gradient(135deg, var(--black), var(--grey-800));
+  background: linear-gradient(135deg, var(--egypt-red) 0%, var(--egypt-red-dark) 100%);
   border-radius: 14px;
   padding: 20px;
   margin-bottom: 20px;
   color: var(--white);
   flex-wrap: wrap;
-  border: 1px solid var(--grey-700);
+  border: 2px solid var(--egypt-gold);
+  box-shadow: 0 8px 28px rgba(206, 17, 38, 0.28);
 }
 
 .egypt-points-logo {
@@ -681,11 +730,11 @@ nav.mobile-only { display: flex; }
 }
 
 .standings-row-egypt {
-  background: var(--grey-100);
+  background: var(--egypt-gold-bg);
 }
 
 .standings-row-qualify {
-  box-shadow: inset 3px 0 0 var(--black);
+  box-shadow: inset 3px 0 0 var(--egypt-gold);
 }
 
 .standings-row-egypt td { font-weight: 700; }
@@ -698,7 +747,7 @@ nav.mobile-only { display: flex; }
   font-size: 8px;
   font-weight: 800;
   letter-spacing: 0.04em;
-  background: var(--black);
+  background: var(--egypt-red);
   color: var(--white);
   vertical-align: middle;
 }
@@ -721,9 +770,9 @@ nav.mobile-only { display: flex; }
   font-weight: 800;
 }
 
-.form-win { background: var(--black); color: var(--white); }
-.form-draw { background: var(--grey-300); color: var(--black); }
-.form-loss { background: var(--grey-500); color: var(--white); }
+.form-win { background: var(--egypt-gold); color: #5c4200; }
+.form-draw { background: var(--white); color: var(--grey-700); border: 1px solid var(--grey-300); }
+.form-loss { background: var(--egypt-red); color: var(--white); }
 .form-unknown { background: var(--grey-200); color: var(--grey-600); }
 
 .standings-form-empty {
@@ -732,16 +781,16 @@ nav.mobile-only { display: flex; }
 
 .standings-points {
   font-weight: 800;
-  color: var(--black);
+  color: var(--egypt-red);
 }
 
 /* ── Group G points chart ── */
 .group-g-chart {
   margin-bottom: 20px;
   padding: 16px;
-  background: var(--grey-100);
+  background: linear-gradient(145deg, #fffdf5, var(--egypt-gold-bg));
   border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
+  border: 1px solid var(--egypt-gold-light);
 }
 
 .group-g-chart-header {
@@ -799,7 +848,7 @@ nav.mobile-only { display: flex; }
 .group-g-chart-pts {
   font-size: 11px;
   font-weight: 800;
-  color: var(--black);
+  color: var(--egypt-red);
   white-space: nowrap;
 }
 
@@ -815,12 +864,12 @@ nav.mobile-only { display: flex; }
   height: 100%;
   min-width: 4px;
   border-radius: 999px;
-  background: linear-gradient(90deg, var(--grey-600), var(--black));
+  background: linear-gradient(90deg, var(--egypt-red-light), var(--egypt-red-deep));
   transition: width 0.4s ease;
 }
 
 .group-g-chart-row-egypt .group-g-chart-bar {
-  background: linear-gradient(90deg, var(--grey-500), var(--black));
+  background: linear-gradient(90deg, var(--egypt-gold), var(--egypt-red));
 }
 
 .group-g-chart-row-egypt .group-g-chart-meta {
@@ -850,7 +899,7 @@ nav.mobile-only { display: flex; }
   flex-direction: column;
   gap: 6px;
   padding: 12px 14px;
-  background: var(--grey-100);
+  background: var(--egypt-gold-bg);
   border-radius: var(--radius-sm);
   border: 1px solid var(--border);
   font-size: 13px;
@@ -877,10 +926,10 @@ nav.mobile-only { display: flex; }
   letter-spacing: 0.04em;
 }
 
-.group-g-result-match strong {
+.group-g-result strong {
   font-size: 15px;
   font-weight: 800;
-  color: var(--black);
+  color: var(--egypt-red);
 }
 
 .group-g-card-compact {
@@ -898,13 +947,56 @@ nav.mobile-only { display: flex; }
 }
 
 .standings-live-badge-api {
-  background: var(--grey-100);
-  border-color: var(--grey-300);
+  background: var(--egypt-gold-bg);
+  border-color: var(--egypt-gold-light);
 }
 
 .standings-live-badge-fallback {
-  background: var(--white);
-  border-color: var(--border-strong);
+  background: #fff8e6;
+  border-color: var(--egypt-gold);
+}
+
+.standings-live-badge-official {
+  background: linear-gradient(135deg, var(--egypt-red), var(--egypt-red-dark));
+  border-color: var(--egypt-gold);
+}
+
+.standings-live-badge-official .standings-live-label {
+  color: var(--white);
+}
+
+.standings-live-badge-official .standings-live-updated {
+  color: var(--grey-400);
+}
+
+.standings-out-badge {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  background: var(--grey-300);
+  color: var(--grey-700);
+  vertical-align: middle;
+}
+
+.group-g-matchday {
+  margin-bottom: 14px;
+}
+
+.group-g-matchday:last-child {
+  margin-bottom: 0;
+}
+
+.group-g-matchday-label {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--grey-500);
+  margin-bottom: 8px;
 }
 
 .standings-live-label {
@@ -913,8 +1005,8 @@ nav.mobile-only { display: flex; }
   margin-bottom: 4px;
 }
 
-.standings-live-badge-api .standings-live-label { color: var(--black); }
-.standings-live-badge-fallback .standings-live-label { color: var(--grey-600); }
+.standings-live-badge-api .standings-live-label { color: var(--egypt-red); }
+.standings-live-badge-fallback .standings-live-label { color: var(--gold-dark); }
 
 .standings-live-updated {
   display: block;
@@ -927,6 +1019,98 @@ nav.mobile-only { display: flex; }
   margin-top: 6px;
   color: var(--grey-600);
   font-size: 11px;
+}
+
+/* ── Egypt knockout path ── */
+.egypt-knockout {
+  margin-bottom: 20px;
+  padding: 16px;
+  background: linear-gradient(145deg, #ffffff, var(--egypt-gold-bg));
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--egypt-gold-light);
+}
+
+.knockout-path {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.knockout-step {
+  padding: 14px;
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+
+.knockout-step-next {
+  border-left: 3px solid var(--egypt-red);
+}
+
+.knockout-step-win {
+  border-left: 3px solid var(--egypt-gold);
+  opacity: 0.95;
+}
+
+.knockout-step-label {
+  display: block;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--grey-500);
+  margin-bottom: 10px;
+}
+
+.knockout-matchup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.knockout-team {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.knockout-team-egypt {
+  font-weight: 800;
+  color: var(--egypt-red);
+}
+
+.knockout-team-logo {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}
+
+.knockout-vs {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--grey-500);
+  text-transform: uppercase;
+}
+
+.knockout-step-note {
+  display: block;
+  margin-top: 8px;
+  font-size: 11px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.knockout-arrow {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--egypt-gold-dark);
+  line-height: 1;
 }
 
 /* ── Fixtures ── */
@@ -1062,7 +1246,7 @@ nav.mobile-only { display: flex; }
   position: absolute;
   bottom: 0;
   right: 0;
-  background: var(--black);
+  background: var(--egypt-red);
   color: var(--white);
   font-size: 10px;
   font-weight: 800;
@@ -1119,37 +1303,38 @@ nav.mobile-only { display: flex; }
   gap: 8px;
   padding: 20px 14px;
   border-radius: var(--radius);
-  background: var(--white);
-  color: var(--black);
+  color: var(--white);
   text-align: center;
   box-shadow: var(--shadow);
-  border: 1px solid var(--border);
-  transition: transform 0.15s, box-shadow 0.2s, border-color 0.2s;
+  border: none;
+  transition: transform 0.15s, box-shadow 0.2s;
 }
 
 .category-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
-  border-color: var(--grey-400);
+  box-shadow: var(--shadow-md);
 }
 
-.category-purple { border-top: 3px solid var(--grey-700); }
-.category-green { border-top: 3px solid var(--grey-600); }
-.category-orange { border-top: 3px solid var(--grey-500); }
-.category-pink { border-top: 3px solid var(--black); }
-.category-teal { border-top: 3px solid var(--grey-400); }
+.category-purple { background: linear-gradient(145deg, var(--egypt-red), var(--egypt-red-deep)); }
+.category-green { background: linear-gradient(145deg, var(--egypt-gold), var(--egypt-gold-dark)); }
+.category-orange { background: linear-gradient(145deg, #f97316, var(--egypt-gold-dark)); }
+.category-pink { background: linear-gradient(145deg, var(--egypt-red-light), var(--egypt-red-dark)); }
+.category-teal { background: linear-gradient(145deg, #fff, var(--egypt-gold-pale)); color: var(--egypt-red); border: 2px solid var(--egypt-gold); }
+.category-teal .category-name,
+.category-teal .category-count { color: var(--egypt-red); }
+.category-teal .category-count { opacity: 0.75; }
 
 .category-name {
   font-size: 12px;
   font-weight: 800;
   letter-spacing: 0.04em;
-  color: var(--black);
+  color: var(--white);
 }
 
 .category-count {
   font-size: 9px;
   font-weight: 500;
-  color: var(--grey-500);
+  color: rgba(255, 255, 255, 0.88);
 }
 
 /* ── Did You Know ── */
@@ -1160,16 +1345,19 @@ nav.mobile-only { display: flex; }
   gap: 16px;
   margin: 0 16px 24px;
   padding: 24px 20px;
-  background: linear-gradient(135deg, var(--black), var(--grey-800));
+  background: linear-gradient(135deg, var(--egypt-red) 0%, var(--egypt-red-dark) 50%, var(--egypt-gold-dark) 100%);
   border-radius: var(--radius);
   color: var(--white);
-  box-shadow: var(--shadow);
+  box-shadow: 0 10px 32px rgba(206, 17, 38, 0.25);
   cursor: pointer;
-  transition: transform 0.15s;
-  border: 1px solid var(--grey-700);
+  transition: transform 0.15s, box-shadow 0.2s;
+  border: 2px solid var(--egypt-gold);
 }
 
-.did-you-know:hover { transform: translateY(-2px); }
+.did-you-know:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 36px rgba(206, 17, 38, 0.32);
+}
 
 .dyk-label {
   display: block;
@@ -1231,7 +1419,7 @@ nav.mobile-only { display: flex; }
   padding: 10px 18px;
   border-radius: 12px;
   background: var(--white);
-  color: var(--black);
+  color: var(--egypt-red);
   font-size: 14px;
   font-weight: 700;
   box-shadow: var(--shadow);
@@ -1239,7 +1427,7 @@ nav.mobile-only { display: flex; }
   transition: background 0.2s, transform 0.15s;
 }
 
-.club-page-back:hover { background: var(--grey-100); }
+.club-page-back:hover { background: var(--egypt-gold-pale); }
 .club-page-back:active { transform: scale(0.98); }
 
 .club-page-content { padding: 0 16px 32px; }
@@ -1275,12 +1463,12 @@ nav.mobile-only { display: flex; }
   font-weight: 900;
   letter-spacing: -0.02em;
   margin: 8px 0 4px;
-  color: var(--text-on-dark);
+  color: var(--egypt-red);
 }
 
 .club-page-meta {
   font-size: 13px;
-  color: var(--text-muted-on-dark);
+  color: var(--text-muted);
 }
 
 .club-block { margin-bottom: 24px; }
@@ -1292,7 +1480,7 @@ nav.mobile-only { display: flex; }
   display: flex;
   align-items: center;
   gap: 8px;
-  color: var(--text-on-dark);
+  color: var(--egypt-red);
 }
 
 .club-facts-count {
@@ -1335,15 +1523,15 @@ nav.mobile-only { display: flex; }
   justify-content: center;
   gap: 14px;
   padding: 60px 20px;
-  color: var(--text-muted-on-dark);
+  color: var(--text-muted);
   font-size: 14px;
 }
 
 .loading-spinner {
   width: 40px;
   height: 40px;
-  border: 3px solid var(--grey-600);
-  border-top-color: var(--white);
+  border: 3px solid var(--border);
+  border-top-color: var(--egypt-red);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
@@ -1385,8 +1573,8 @@ nav.mobile-only { display: flex; }
 .nav-item svg { width: 22px; height: 22px; }
 
 .nav-item.active {
-  color: var(--black);
-  background: var(--grey-100);
+  color: var(--egypt-red);
+  background: var(--egypt-gold-pale);
 }
 
 /* ── Desktop ── */
